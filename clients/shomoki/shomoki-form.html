@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shomoki form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex; 
+            flex-direction: column;
+            min-height: 100vh; 
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .header .logo {
+            width: 40px;
+        }
+
+        /* CENTER FORM BOX */
+        .center-box {
+            background-color: #ae00ff;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-item label {
+            margin-left: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #222;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: auto;
+        }
+
+        .footer-text {
+            color: #333;
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .footer .logo {
+            display: block;
+            margin: 10px auto 0 auto;
+            width: 70px;
+        }
+
+        /* ✅ MEDIA QUERY للشاشات الصغيرة جداً */
+        @media (max-width: 400px) {
+            .center-box {
+                padding: 15px;
+            }
+
+            input, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .footer-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="logo-2.png" alt="Logo" class="logo">
+    </div>
+
+    <div class="center-box">
+        <form action="#" method="post">
+            
+            <div class="form-group">
+                <input type="text" id="name" name="user_name" placeholder="الاسم" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="place" name="user_place" placeholder="المكان" required>
+            </div>
+
+            <div class="form-group">
+                <input type="datetime-local" id="date" name="user_time" required>
+            </div>
+
+            <div class="form-group">
+                <label>خيارات إضافية:</label>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="option1" name="option1" value="value1">
+                    <label for="option1">الكاليثينيكس</label>
+                </div>
+
+                <div class="checkbox-item">
+                    <input type="checkbox" id="option2" name="option2" value="value2">
+                    <label for="option2">كمال الأجسام</label>
+                </div>
+                
+                <div class="checkbox-item">
+                    <input type="checkbox" id="option3" name="option3" value="value3">
+                    <label for="option3">اللياقة البدنية</label>
+                </div>
+            </div>
+
+            <button type="submit">إرسال</button>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p class="footer-text">
+            With our team of coaches specializing in fitness, <br>
+            calisthenics, and bodybuilding, you can choose the trainer <br>
+            that suits you and book your session anytime and anywhere that suits you. <br>
+            Everything is easy and fast via WhatsApp!
+        </p>
+        <img src="logo-1.png" alt="Logo" class="logo">
+    </div>
+
+
+<script>
+document.querySelector("form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const place = document.getElementById("place").value;
+    const time = document.getElementById("date").value;
+
+    let options = [];
+    if (document.getElementById("option1").checked) options.push("الكاليثينيكس");
+    if (document.getElementById("option2").checked) options.push("كمال الأجسام");
+    if (document.getElementById("option3").checked) options.push("اللياقة البدنية");
+
+    const optionsText = options.length > 0 ? options.join(", ") : "لا توجد";
+
+    const message = `الاسم: ${name}%0Aالمكان: ${place}%0Aالوقت: ${time}%0Aالخيارات: ${optionsText}`;
+
+    const phoneNumber = "212652618870";
+
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(url, "_blank");
+});
+</script>
+
+</body>
+</html>
+<!--Hi, I'm Somoud Baha Ramadan, a mobile-friendly appointment booking page developer.
+contact me on : whatsapp:+212 652-618870
+                instagram : @formarea
+                email : contact.formarea@gmail.com/sumod.366@gmail.com-->
