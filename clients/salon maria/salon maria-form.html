@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation - Salon de Beauté</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #fff);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 10px;
+    }
+
+    .header h1 {
+      color: #d63384;
+      font-size: 26px;
+      margin: 10px 0 5px;
+    }
+
+    .header p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .form-box {
+      background-color: #fff;
+      width: 90%;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    select {
+      background-color: #fff;
+    }
+
+    button {
+      background-color: #d63384;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #c21873;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: auto;
+      padding: 15px;
+    }
+
+    .footer a {
+      color: #d63384;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* 💖 Responsive */
+    @media (max-width: 400px) {
+      .header h1 {
+        font-size: 22px;
+      }
+      input, select, button {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="logo.png" alt="Salon Logo" style="width:150px;">
+    <h1>Salon de Beauté pour Femmes</h1>
+    <p>Coiffure | Ongles | Esthétique | Soins</p>
+  </div>
+
+  <div class="form-box">
+    <form id="beautyForm">
+      <div class="form-group">
+        <input type="text" id="name" placeholder="Votre nom" required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="place" placeholder="Votre ville ou quartier" required>
+      </div>
+
+      <div class="form-group">
+        <select id="service" required>
+          <option value="">Choisir un service</option>
+          <option>Coiffure</option>
+          <option>Manucure / Ongles</option>
+          <option>Soins du visage</option>
+          <option>Épilation</option>
+          <option>Maquillage</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="datetime-local" id="date" required>
+      </div>
+
+      <button type="submit">✨Réserver sur WhatsApp✨</button>
+    </form>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 Salon de Beauté Maria — Créé par <a href="https://www.instagram.com/formarea.agency">@Formarea</a></p>
+  </div>
+
+  <script>
+    document.getElementById("beautyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const place = document.getElementById("place").value;
+      const service = document.getElementById("service").value;
+      const date = document.getElementById("date").value;
+
+      const message = `🌸 Nouvelle réservation 🌸%0A👩‍💼 Nom: ${name}%0A📍 Lieu: ${place}%0A💅 Service: ${service}%0A🗓️ Date et heure: ${date}`;
+      const phone = "212652618870"; // 🔹 غيّر الرقم إلى رقم الصالون
+
+      const url = `https://wa.me/${phone}?text=${message}`;
+      window.open(url, "_blank");
+    });
+  </script>
+
+</body>
+</html>
+<!--Hi, I'm Somoud Baha Ramadan, a mobile-friendly appointment booking page developer.
+contact me on : whatsapp:+212 652-618870
+                instagram : @formarea.agency
+                email : contact.formarea@gmail.com/sumod.366@gmail.com-->
