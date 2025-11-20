@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Page</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+    .header{
+        display: flex;
+  justify-content: center;   /* وسط أفقي */
+    }
+    .header img{
+      width: 40px;
+      height: auto;
+    }
+    body{
+      background:#f5f5f5;
+      padding:20px;
+    }
+    .product-page{
+      max-width:1200px;
+      margin:auto;
+      padding:20px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:30px;
+    }
+    .product-gallery{
+      flex:1 1 40%;
+    }
+    .product-gallery .main-image img{
+      width:80%;
+      border:1px solid #ddd;
+    }
+    .thumbnails{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+    }
+    .thumbnails img{
+      width:70px;
+      height:70px;
+      object-fit:cover;
+      border:3px solid #ccc;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .thumbnails img:hover{
+      border-color:#000000;
+      transform:scale(1.05);
+    }
+        .thumbnails img.active{
+      border-color:#000000;
+      transform:scale(1.05);
+    }
+    .product-info{
+      flex:1 1 45%;
+    }
+    .product-info h1{
+      font-size:24px;
+      margin-bottom:10px;
+    }
+    .subtitle{
+      color:#555;
+      margin-bottom:15px;
+    }
+    .price{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:20px;
+    }
+    .current-price{
+      font-size:28px;
+      font-weight:bold;
+      color:#e60012;
+    }
+    .old-price{
+      text-decoration:line-through;
+      color:#888;
+    }
+    .variants label{
+      display:block;
+      margin-bottom:5px;
+      font-weight:600;
+      margin-top:10px;
+    }
+    .variants select{
+      width:100%;
+      padding:10px;
+      margin-bottom:10px;
+      border:1px solid #ccc;
+    }
+    .quantity{
+      margin-bottom:15px;
+    }
+    .quantity input{
+      width:70px;
+      padding:10px;
+      border:1px solid #ccc;
+    }
+    .actions{
+      display:flex;
+      gap:15px;
+      margin:20px 0;
+    }
+    .buy-now{
+      flex:1;
+      padding:15px;
+      background:#000;
+      color:white;
+      font-size:18px;
+      border:none;
+      cursor:pointer;
+    }
+    .buy-now:hover{
+      background:#333;
+    }
+    #result{
+      display: flex;
+      justify-content: center;
+      margin-top:20px;
+      font-size:27px;
+      color:#00ff4c;
+    }
+
+       /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: auto;
+        }
+
+        .footer-text {
+            color: #333;
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .footer .logo {
+            display: block;
+            margin: 10px auto 0 auto;
+            width: 70px;
+        }
+
+    @media(max-width:768px){
+      .product-page{
+        flex-direction:column;
+      }
+      .footer-text {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="header"><img src="logo-2.png" alt="logo"></div>
+  <div class="product-page">
+
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <div class="main-image">
+        <img id="main" src="img1.jpg" alt="Product">
+      </div>
+<div class="thumbnails">
+  <img onclick="bdl('img1.jpg')" src="img1.jpg" alt="">
+  <img onclick="bdl('img2.jpg')" src="img2.jpg" alt="">
+  <img onclick="bdl('img3.jpg')" src="img3.jpg" alt="">
+</div>
+    </div>
+
+    <!-- Product Info -->
+    <div id="product-info" class="product-info">
+      <h1 id="product-name">Bandage for Fitness Gym Training or Calisthenics</h1>
+
+      <p class="subtitle">Key feature / tagline</p>
+
+      <div class="price">
+        <span class="current-price">40.99 dh</span>
+        <span class="old-price">60.99 dh</span>
+      </div>
+
+      <div class="variants">
+        <label>Color:</label>
+        <select id="color" name="color">
+          <option value="red">Red</option>
+          <option value="black">Black</option>
+        </select>
+
+        <label>Size:</label>
+        <select id="size" name="size">
+          <option value="S">Small</option>
+          <option value="M">Medium</option>
+        </select>
+      </div>
+
+      <div class="quantity">
+        <label>Quantity:</label>
+        <input id="quantity" type="number" min="1" value="1">
+      </div>
+
+      <div class="actions">
+        <button onclick="buy()" class="buy-now">Buy Now</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="result"></div>
+    <div class="footer">
+        <p class="footer-text">
+            With our team of coaches specializing in fitness, <br>
+            calisthenics, and bodybuilding, you can choose the trainer <br>
+            that suits you and book your session anytime and anywhere that suits you. <br>
+            Everything is easy and fast via WhatsApp!
+        </p>
+        <img src="logo-1.png" alt="Logo" class="logo">
+    </div>
+  <script>
+    function bdl(src){
+      const thumbs = document.querySelectorAll(".thumbnails img");
+
+  thumbs.forEach(img => {
+    img.addEventListener("click", () => {
+
+      // remove active from all
+      thumbs.forEach(i => i.classList.remove("active"));
+
+      // add to clicked image
+      img.classList.add("active");
+
+      // set main image
+      document.getElementById("main").src = img.src;
+    });
+  });
+
+    }
+    function buy() {
+      const productName = document.getElementById('product-name').textContent;
+      const quantity = document.getElementById('quantity').value;
+      const color = document.getElementById('color').value;
+      const size = document.getElementById('size').value;
+      const result = document.getElementById('result');
+
+      if (quantity === "" || quantity <= 0) {
+        result.textContent = "dir lquantity!";
+        return;
+      }
+
+      const message =
+        "🛒 *طلب شراء جديد*\n\n" +
+        "📌 *المنتج:* " + productName + "\n" +
+        "🎨 *اللون:* " + color + "\n" +
+        "📏 *الحجم:* " + size + "\n" +
+        "📦 *الكمية:* " + quantity + "\n\n" +
+        "🔄 المرجو تأكيد الطلب ❤️";
+
+      const nmra = "212652618870";
+      const url = `https://wa.me/${nmra}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+
+      result.textContent = 'la Commande wslat 🙏';
+      }
+</script>
+
+</body>
+</html>
