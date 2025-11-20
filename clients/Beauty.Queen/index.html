@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beauty Queen | Product</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+body{
+  background:#f4eee7;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+}
+    .header{
+      display: flex;
+      justify-content: center;   /* وسط أفقي */
+    }
+    .header img{
+      width: 100px;
+      height: auto;
+    }
+/* MAIN CONTAINER */
+.product-page{
+  max-width:1150px;
+  margin:auto;
+  padding:35px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:55px;
+  animation: fadeIn .6s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* GALLERY */
+.product-gallery{
+  flex:1 1 40%;
+  text-align:center;
+}
+
+.product-gallery .main-image img{
+  width:100%;
+  max-width:420px;
+  border-radius:20px;
+  border:1px solid #e0d3c4;
+  box-shadow:0 0 18px rgba(0,0,0,0.18);
+}
+
+.thumbnails{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+}
+
+.thumbnails img{
+  width:80px;
+  height:80px;
+  border-radius:14px;
+  border:3px solid #e5d8c9;
+  object-fit:cover;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.thumbnails img:hover,
+.thumbnails img.active{
+  border-color:#c49b42;
+  transform:scale(1.1);
+}
+
+/* INFO */
+.product-info{
+  flex:1 1 45%;
+}
+
+.product-info h1{
+  font-size:32px;
+  color:#3e332d;
+  margin-bottom:10px;
+}
+
+.title p{
+  color:#6c5f55;
+  font-size:16px;
+  margin-top:10px;
+  line-height:1.7;
+}
+
+/* PRICE */
+.price{
+  margin:20px 0;
+}
+
+.current-price{
+  color:#c49b42;
+  font-size:32px;
+  font-weight:900;
+}
+
+.old-price{
+  color:#a89c92;
+  text-decoration:line-through;
+  font-size:18px;
+  margin-left:10px;
+}
+
+/* INPUTS */
+label{
+  display:block;
+  margin-top:20px;
+  margin-bottom:6px;
+  font-weight:600;
+  color:#4c4038;
+}
+
+select, input{
+  width:100%;
+  padding:15px;
+  border-radius:12px;
+  border:1px solid #dacfc2;
+  background:#fdfaf8;
+  font-size:16px;
+  transition:0.25s;
+}
+
+select:focus,
+input:focus{
+  border-color:#c49b42;
+  box-shadow:0 0 10px rgba(196,155,66,0.45);
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:18px;
+  margin-top:28px;
+  background:#c9a24b;
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  font-size:20px;
+  cursor:pointer;
+  font-weight:bold;
+  letter-spacing:0.5px;
+  transition:0.25s;
+}
+
+button:hover{
+  background:#a88434;
+  transform:translateY(-2px);
+}
+
+/* RESULT */
+#result{
+  margin-top:25px;
+  padding:14px 20px;
+  background:#e9f8e9;
+  border-left:6px solid #4fa04f;
+  color:#246b24;
+  border-radius:10px;
+  font-weight:bold;
+  display:inline-block;
+  font-size:16px;
+}
+
+      /* FOOTER */
+.footer {
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: auto;  /* pushes footer to bottom */
+    width: 100%;
+}
+
+.footer-text {
+    color: #333;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.footer .logo {
+    display: block;
+    margin: 10px auto 0 auto;
+    width: 100px;
+    height: auto;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  body {
+    padding: 0 !important; /* يحيد أي فراغ فاليسار */
+  }
+
+  .product-page{
+    padding:20px;
+    margin:0 auto;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div class="header"><img src="logo.png" alt="logo"></div>
+  <div class="product-page">
+<div class="product-page">
+
+  <!-- GALLERY -->
+  <div class="product-gallery">
+      <div class="main-image">
+        <img id="main" src="img1.jpg" alt="">
+      </div>
+
+      <div class="thumbnails">
+        <img onclick="changeImg('img1.jpg')" src="img1.jpg">
+        <img onclick="changeImg('img2.jpg')" src="img2.jpg">
+        <img onclick="changeImg('img3.jpg')" src="img3.jpg">
+      </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="product-info">
+      <div class="title">
+        <h1 id="title">زيت مركز بالأعشاب الصحية</h1>
+        <p>
+        مجموعة زيوت مركزة طبيعية بدون مواد حافظة وبدون أضرار.  
+        نقصي من تساقط الشعر بنسبة %100 مع زيت Beauty Queen.
+        </p>
+      </div>
+
+      <div class="price">
+        <span id="priceText" class="current-price">169.99</span>
+        <span class="old-price">199.99 dh</span>
+      </div>
+
+      <label>Size:</label>
+      <select id="size">
+        <option value="50 ml">50 ml</option>
+        <option value="100 ml">100 ml</option>
+      </select>
+
+      <label>Quantity:</label>
+      <input id="quantity" type="number" placeholder="كتب الكمية">
+
+      <button onclick="buy()">Buy Now</button>
+
+      <div id="result"></div>
+  </div>
+    <div class="footer">
+        <p class="footer-text">
+ منتجات طبيعية %100 للعناية بالجمال — جودة عالية ونتائج مضمونة.
+        </p>
+        <img src="logo.png" alt="Logo" class="logo">
+    </div>
+
+<script>
+function changeImg(src){
+          const thumbs = document.querySelectorAll(".thumbnails img");
+
+  thumbs.forEach(img => {
+    img.addEventListener("click", () => {
+
+      // remove active from all
+      thumbs.forEach(i => i.classList.remove("active"));
+
+      // add to clicked image
+      img.classList.add("active");
+
+      // set main image
+      document.getElementById("main").src = img.src;
+    });
+  });
+  document.getElementById('main').src = src;
+}
+
+/* BUY */
+function buy(){
+
+  const title = document.getElementById("title").textContent;
+  const size = document.getElementById("size").value;
+  const qty = parseInt(document.getElementById("quantity").value);
+  const price = parseFloat(document.getElementById("priceText").textContent);
+  const result = document.getElementById("result");
+
+  if(!qty || qty <= 0){
+    result.textContent = "كتب ليا أخويا الكمية!";
+    return;
+  }
+
+  const total = qty * price;
+
+  const msg =
+    `🛍️ *New Order*\n\n` +
+    `📌 Product: ${title}\n` +
+    `📦 Size: ${size}\n` +
+    `🔢 Quantity: ${qty}\n` +
+    `💰 Price: ${price} DH\n` +
+    `🧾 Total: ${total} DH`;
+
+  const phone = "212652618870";
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+  window.open(url, "_blank");
+
+  result.textContent = "تم إرسال الطلب بنجاح ✔️";
+}
+</script>
+
+</body>
+</html>
