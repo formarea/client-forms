@@ -180,10 +180,10 @@
     <div id="product-info" class="product-info">
       <h1 id="product-name">Bandage for Fitness Gym Training or Calisthenics</h1>
 
-      <p class="subtitle">good for muscle-up and static / shomoki</p>
+      <p class="subtitle">Key feature / tagline</p>
 
       <div class="price">
-        <span class="current-price">40.99 dh</span>
+        <span id="priceText" class="current-price">40.99 dh</span>
         <span class="old-price">60.99 dh</span>
       </div>
 
@@ -245,7 +245,9 @@
     }
     function buy() {
       const productName = document.getElementById('product-name').textContent;
-      const quantity = document.getElementById('quantity').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const priceText = document.querySelector('.current-price').textContent; 
+      const price = parseFloat(priceText); // هادي كتخرّج الرقم فقط (40.99)
       const color = document.getElementById('color').value;
       const size = document.getElementById('size').value;
       const result = document.getElementById('result');
@@ -255,12 +257,16 @@
         return;
       }
 
+const lmjmo3 = quantity * price.toFixed(2); // باش يخرج بحال 40.99 
+
       const message =
         "🛒 *طلب شراء جديد*\n\n" +
         "📌 *المنتج:* " + productName + "\n" +
         "🎨 *اللون:* " + color + "\n" +
         "📏 *الحجم:* " + size + "\n" +
         "📦 *الكمية:* " + quantity + "\n\n" +
+        "💰 *الثمن:* " + price + " dh\n" +
+        "💵 *المجموع:* " + lmjmo3 + " dh\n\n" +
         "🔄 المرجو تأكيد الطلب ❤️";
 
       const nmra = "212652618870";
@@ -273,5 +279,3 @@
 
 </body>
 </html>
-
-
