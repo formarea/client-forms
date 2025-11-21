@@ -303,7 +303,7 @@ function buy(){
     return;
   }
 
-  const total = qty * price;
+  const total = (qty * price).toFixed(2);
 
   const msg =
     `🛍️ *New Order*\n\n` +
@@ -324,4 +324,5 @@ function buy(){
 
 </body>
 </html>
+
 
