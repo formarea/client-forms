@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7asiba</title>
+
+<style>
+    body{
+        background: url('bg.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        font-family: 'Courier New', Courier, monospace;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        margin:0;
+        padding: 15px;
+    }
+
+    /* CARD */
+    .lblan{
+        width: 350px;
+        background: #000000;
+        padding: 28px 22px;
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        gap: 14px;
+        border-radius: 12px;
+        animation: fade .5s ease;
+        box-sizing: border-box;
+    }
+
+    /* TITLE */
+    .lblan h1{
+        color:#51ff00;
+        font-size:24px;
+        font-weight:700;
+        margin: 0 0 5px;
+        letter-spacing: 1px;
+        text-align:center;
+    }
+
+    /* INPUTS */
+    .lblan input{
+        width:100%;
+        padding:13px;
+        border:2px solid #ddd;
+        background:#f9f9f9;
+        font-size:15px;
+        border-radius:6px;
+        transition:.25s;
+        box-sizing: border-box;  
+    }
+
+    .lblan input:focus{
+        border-color:#51ff00;
+        background:white;
+        outline:none;
+    }
+
+    /* BUTTON */
+    .lblan button{
+        width: 100%;
+        padding:13px;
+        border:none;
+        background:#51ff00;
+        color:#000;
+        font-size:18px;
+        cursor:pointer;
+        font-weight:700;
+        transition:0.3s;
+        border-radius:6px;
+        box-sizing:border-box;
+    }
+
+    .lblan button:hover{
+        background:#43d101;
+        transform:translateY(-3px);
+    }
+
+    /* RESULT */
+    #result{
+        margin-top:8px;
+        font-size:19px;
+        font-weight:800;
+        color:#51ff00;
+        text-align:center;
+    }
+
+    /* ANIMATION */
+    @keyframes fade{
+        from{opacity:0; transform:translateY(10px);}
+        to{opacity:1; transform:translateY(0);}
+    }
+
+    /* MOBILE */
+    @media(max-width:450px){
+        .lblan{
+            width: 100%;
+            max-width: 340px;
+            padding: 23px;
+        }
+    }
+</style>
+
+</header>
+
+<body>
+
+    <div class="lblan">
+        <h1>7sb ch7al 3ndk fl3mr</h1>
+        <input id="l3am1" type="number" placeholder="ktb l3am fach tzaditi !">
+        <input id="l3am2" type="number" placeholder="ktb l3am daba !">
+        <button onclick="hsb()">7sb</button>
+        <div id="result"></div>
+    </div>
+
+<script>
+function hsb(){
+    const l3am1 = parseInt(document.getElementById('l3am1').value);
+    const l3am2 = parseInt(document.getElementById('l3am2').value);
+    const result = document.getElementById('result');
+
+    if (isNaN(l3am1) || isNaN(l3am2)){
+        result.textContent = 'ktb dakchi !';
+        return;
+    }
+
+    const age = l3am2 - l3am1 ;
+    result.textContent = 'nta 3ndk : ' + age + ' 3am';
+}
+</script>
+
+</body>
+</html>
