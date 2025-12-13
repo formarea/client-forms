@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+<link rel="manifest" href="favicon_io/site.webmanifest">
+<title>Quickfo</title>
+<style>
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-color: #1c1c1c;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .circle-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+  }
+
+  .avatar {
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .social-link {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgb(0, 0, 0);
+    color: white;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    transition: all 0.3s cubic-bezier(.68, -0.55, .27, 1.55);
+    z-index: 2;
+    opacity: 1;
+    font-size: 0;
+  }
+
+  .social-link img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .social-link i {
+    font-size: 20px;
+  }
+
+  .social-link:hover {
+    transform: scale(1.2);
+    box-shadow: rgba(67, 67, 67, 0.16) 0px 0px 0px 12px;
+
+  }
+
+  .circle-container.collapsed .social-link {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+/* Popup داخل الافاتار */
+.popup {
+  display: none;
+  position: absolute; /* مهم: داخل avatar */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column; /* العمود للكتابة + الأزرار */
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+      font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+  /* الكتابة */
+  .popup textarea {
+    width: 70%;
+    min-height: 80px;
+    color: #fff;
+    border: none;
+    background: transparent;
+    resize: none;
+    outline: none;
+    font: inherit;
+    text-align: center;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.5;
+    text-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+
+  }
+  textarea::placeholder {
+  color:rgb(255, 255, 255); /* أي لون تحب، هنا الأحمر */
+}
+
+/* حاوية الأزرار */
+.popup-buttons {
+  display: flex; /* يجعل الأزرار في صف واحد */
+  gap: 0px; /* مسافة بين الأزرار */
+  margin-top: 10px;
+}
+
+/* زر الإغلاق */
+.popup .close-btn {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(255, 0, 68);
+  color: black;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(.68, -0.55, .27, 1.55);
+}
+
+/* زر الإرسال */
+.send-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #89ef11;
+  color: white;
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transform: rotate(-6deg);
+  transition: all 0.3s cubic-bezier(.68, -0.55, .27, 1.55);
+}
+
+.send-btn:hover {
+    box-shadow: rgba(30, 29, 29, 0.07) 0px 0px 0px 12px;
+}
+.close-btn:hover {
+    box-shadow: rgba(30, 29, 29, 0.07) 0px 0px 0px 12px;
+}
+
+
+  /* الدائرة الصغيرة */
+  .mini-circle {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #1c1c1c;
+}
+
+/* أونلاين */
+.mini-circle.online {
+  background: #00ff00; /* أخضر */
+}
+
+/* أوفلاين */
+.mini-circle.offline {
+  background: #ff0000; /* أحمر */
+}
+
+
+/* الدوائر الصغيرة أسفل يمين الأيقونة */
+.mini-circle-platform {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background-color:rgb(0, 0, 0);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #1c1c1c;
+}
+
+/* تخصيص اللون لكل منصة */
+.social-link[data-platform="facebook"] .mini-circle-platform {
+  background: #1877F2; /* Facebook */
+}
+
+.social-link[data-platform="instagram"] .mini-circle-platform {
+  background: #E4405F; /* Instagram */
+}
+
+.social-link[data-platform="twitter"] .mini-circle-platform {
+  background:rgb(255, 255, 255); /* Twitter/X */
+}
+
+.social-link[data-platform="youtube"] .mini-circle-platform {
+  background: #FF0000; /* YouTube */
+}
+
+.social-link[data-platform="linkedin"] .mini-circle-platform {
+  background: #0A66C2; /* LinkedIn */
+}
+
+.social-link[data-platform="tiktok"] .mini-circle-platform {
+  background: #000000; /* TikTok */
+}
+
+.social-link[data-platform="snapchat"] .mini-circle-platform {
+  background: #FFFC00; /* Snapchat */
+}
+
+.social-link[data-platform="pinterest"] .mini-circle-platform {
+  background: #E60023; /* Pinterest */
+}
+
+.social-link[data-platform="reddit"] .mini-circle-platform {
+  background: #FF4500; /* Reddit */
+}
+
+.social-link[data-platform="telegram"] .mini-circle-platform {
+  background: #0088CC; /* Telegram */
+}
+
+.social-link[data-platform="whatsapp"] .mini-circle-platform {
+  background: #25D366; /* WhatsApp */
+}
+
+.social-link[data-platform="discord"] .mini-circle-platform {
+  background: #5865F2; /* Discord */
+}
+
+.social-link[data-platform="github"] .mini-circle-platform {
+  background: #333333; /* GitHub */
+}
+
+
+
+/* Media Queries للشاشات الصغيرة */
+@media (max-width: 500px) {
+  .circle-container {
+        position: relative;
+    width: 200px;
+    height: 200px;
+  }
+
+  .avatar {
+  width: 240px;
+  height: 240px;
+  }
+
+  .social-link {
+    width: 50px;
+    height: 50px;
+  }
+
+
+}
+
+
+</style>
+</head>
+<body style="background-image:url('backgrounds/bg_user_5.png')">
+
+<div class="circle-container" id="circle">
+  <div class="avatar" 
+    id="avatar" 
+    style="background-image:url('profiles/user_5_PNG.png')">
+
+    <!-- Popup الرسالة -->
+    <div class="popup" id="popup">
+            <textarea id="message" placeholder="ktb lmsg"></textarea>
+<div class="popup-buttons">
+    <span class="close-btn" id="closeBtn"></span>
+    <a href="#" id="sendBtn" class="send-btn">></a>
+  </div>
+    </div>
+  </div>
+
+  <a href="https://www.instagram.com/1bac2sx.studio" 
+   class="social-link  dbl"
+   data-platform="instagram"
+   data-link="https://www.instagram.com/1bac2sx.studio"
+   style="top: calc(50% + 0px); left: calc(50% + 200px); transform: translate(-50%, -50%);">
+
+        instagram      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+    <img src="icons/icon_5_instagram_465760018_1218954245861424_1217256598479614392_n.jpg" alt="instagram" style="width:50px;height:50px;border-radius:50%;">
+
+</a>
+
+  <a href="https://www.youtube.com/@zri3aaa" 
+   class="social-link  dbl"
+   data-platform="youtube"
+   data-link="https://www.youtube.com/@zri3aaa"
+   style="top: calc(50% + 141.42135623731px); left: calc(50% + 141.42135623731px); transform: translate(-50%, -50%);">
+
+        youtube      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+    <img src="icons/icon_5_youtube_a24081ab2c2321338e7c3c44e54ff5ae.jpg" alt="youtube" style="width:50px;height:50px;border-radius:50%;">
+
+</a>
+
+  <a href="#" 
+   class="social-link  dbl"
+   data-platform="snapchat"
+   data-link="#"
+   style="top: calc(50% + 200px); left: calc(50% + 1.2246467991474E-14px); transform: translate(-50%, -50%);">
+
+        snapchat      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+            snapchat        
+    
+</a>
+
+  <a href="+212 652-618870" 
+   class="social-link  dbl"
+   data-platform="whatsapp"
+   data-link="+212 652-618870"
+   style="top: calc(50% + 141.42135623731px); left: calc(50% + -141.42135623731px); transform: translate(-50%, -50%);">
+
+              <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+    <img src="icons/icon_5_whatsapp_PNG.png" alt="whatsapp" style="width:50px;height:50px;border-radius:50%;">
+
+</a>
+
+  <a href="#" 
+   class="social-link  dbl"
+   data-platform="discord"
+   data-link="#"
+   style="top: calc(50% + 2.4492935982947E-14px); left: calc(50% + -200px); transform: translate(-50%, -50%);">
+
+        discord      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+            discord        
+    
+</a>
+
+  <a href="#" 
+   class="social-link  dbl"
+   data-platform="github"
+   data-link="#"
+   style="top: calc(50% + -141.42135623731px); left: calc(50% + -141.42135623731px); transform: translate(-50%, -50%);">
+
+        github      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+            github        
+    
+</a>
+
+  <a href="#" 
+   class="social-link  dbl"
+   data-platform="twitter"
+   data-link="#"
+   style="top: calc(50% + -200px); left: calc(50% + -3.6739403974421E-14px); transform: translate(-50%, -50%);">
+
+        twitter      <span class="mini-circle offline"></span>
+  <span class="mini-circle-platform"></span>
+
+
+   
+            twitter        
+    
+</a>
+
+  <a href="edit.php" 
+   class="social-link edit-btn dbl"
+   data-platform="edit"
+   data-link="edit.php"
+   style="top: calc(50% + -141.42135623731px); left: calc(50% + 141.42135623731px); transform: translate(-50%, -50%);">
+
+        <img src="assets/icons/quickfo.png" alt="Edit" style="width:24px;height:24px;">
+   
+            edit        
+    
+</a>
+
+  </div>
+
+
+  <!--© 2025 Quickfo V1 — Somoud Baha-Ouramadan-->
+<script>
+
+const avatar = document.getElementById("avatar");
+const circle = document.getElementById("circle");
+const popup = document.getElementById("popup");
+const sendBtn = document.getElementById("sendBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+let currentPlatform = null;
+let currentNumber = null;
+
+// إظهار / إخفاء الأيقونات
+avatar.addEventListener("click", () => {
+  circle.classList.toggle("collapsed");
+});
+
+// لكل أيقونة
+document.querySelectorAll(".dbl").forEach(link => {
+  const platform = link.getAttribute("data-platform");
+
+  if (link.classList.contains("edit-btn")) {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = link.getAttribute("data-link");
+    });
+  } else {
+    // **زر الرسالة يظهر فقط لواتساب**
+    if (platform === "whatsapp") {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        popup.style.display = "flex";
+        currentPlatform = platform;
+        currentNumber = link.getAttribute("data-link");
+        // تركيز على حقل الرسالة
+        setTimeout(() => {
+          document.getElementById("message").focus();
+        }, 100);
+      });
+    }
+
+    link.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      const url = link.getAttribute("data-link");
+      
+      // معالجة خاصة لـ WhatsApp
+      if (platform === "whatsapp" && url && url !== "#") {
+        // تنظيف الرقم: إزالة جميع الرموز غير الرقمية
+        const phone = url.replace(/[^0-9]/g, "");
+        let cleanedNumber = phone;
+        
+        // تصحيح تنسيق الرقم المغربي (+212)
+        if (cleanedNumber.startsWith('212')) {
+          cleanedNumber = cleanedNumber;
+        } else if (cleanedNumber.startsWith('00212')) {
+          cleanedNumber = cleanedNumber.substring(2);
+        } else if (cleanedNumber.startsWith('0')) {
+          // إزالة الصفر الأول وإضافة 212
+          cleanedNumber = '212' + cleanedNumber.substring(1);
+        } else {
+          cleanedNumber = '212' + cleanedNumber;
+        }
+        
+        const waUrl = `https://wa.me/${cleanedNumber}`;
+        window.open(waUrl, "_blank");
+      } else if (url && url !== "#") {
+        window.open(url, "_blank");
+      }
+    });
+  }
+});
+
+sendBtn.addEventListener("click", () => {
+  const msg = document.getElementById("message").value.trim();
+
+  // رقمك الثابت (WhatsApp)
+  const fixedNumber = "212652618870";
+
+  if (msg) {
+    const encodedMsg = encodeURIComponent(msg);
+    const waUrl = `https://wa.me/${fixedNumber}?text=${encodedMsg}`;
+
+    window.open(waUrl, "_blank");
+
+    // إخفاء البوب أب ومسح الرسالة
+    popup.style.display = "none";
+    document.getElementById("message").value = "";
+  }
+});
+
+// زر الإغلاق
+closeBtn.addEventListener("click", () => {
+  popup.style.display = "none";
+  document.getElementById("message").value = "";
+});
+
+// تحديث الحالة كل 10 ثواني
+function updateStatus() {
+  fetch('status.php')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(link => {
+        const element = document.querySelector(`.dbl[data-platform='${link.platform}'] .mini-circle`);
+        if (element) {
+          if (link.status === 'online') {
+            element.classList.add('online');
+            element.classList.remove('offline');
+          } else {
+            element.classList.add('offline');
+            element.classList.remove('online');
+          }
+        }
+      });
+    })
+    .catch(err => console.error(err));
+}
+
+// أول مرة + كل 10 ثواني
+updateStatus();
+setInterval(updateStatus, 10000);
+
+// ✅ إضافة ميزة Responsive radius
+function adjustRadius() {
+  const screenWidth = window.innerWidth;
+  let radius = screenWidth <= 500 ? 150 : 200;
+
+  const links = document.querySelectorAll(".dbl");
+  const count = links.length;
+
+  links.forEach((link, i) => {
+    const angle = (i / count) * 2 * Math.PI;
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+    link.style.top = `calc(50% + ${y}px)`;
+    link.style.left = `calc(50% + ${x}px)`;
+    link.style.transform = "translate(-50%, -50%)";
+  });
+}
+
+// أول تشغيل
+adjustRadius();
+// إعادة الحساب مع تغيير حجم الشاشة
+window.addEventListener("resize", adjustRadius);
+
+// السماح بإرسال الرسالة بالضغط على Enter
+document.getElementById("message").addEventListener("keypress", function(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendBtn.click();
+  }
+});
+
+const input = document.getElementById("message");
+
+const texts = [
+  "ktb lmsg",
+  "hi, Somoud"
+];
+
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeEffect() {
+  const currentText = texts[textIndex];
+
+  if (!isDeleting) {
+    input.placeholder = currentText.substring(0, charIndex + 1);
+    charIndex++;
+    if (charIndex === currentText.length) {
+      setTimeout(() => isDeleting = true, 1500);
+    }
+  } else {
+    input.placeholder = currentText.substring(0, charIndex - 1);
+    charIndex--;
+    if (charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+    }
+  }
+
+  setTimeout(typeEffect, isDeleting ? 60 : 100);
+}
+
+typeEffect();
+
+</script>
+
+</body>
+  <!--© 2025 Quickfo V1 — Somoud Baha-Ouramadan-->
+</html>
+
+
+
