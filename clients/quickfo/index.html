@@ -271,7 +271,31 @@
   background: #333333; /* GitHub */
 }
 
+.social-link[data-platform="music"] .mini-circle-platform {
+  background: #FF1493; /* Color for music */
+}
 
+/* النص المخفي */
+.tooltip {
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+/* عند hover يظهر النص */
+.social-link:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
 
 /* Media Queries للشاشات الصغيرة */
 @media (max-width: 500px) {
@@ -294,6 +318,33 @@
 
 }
 
+/* Music icon indicator */
+.music-playing-indicator {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background-color:rgb(255, 255, 255);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #1c1c1c;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+}
 
 </style>
 </head>
@@ -352,10 +403,8 @@
 
         snapchat      <span class="mini-circle offline"></span>
   <span class="mini-circle-platform"></span>
-
-
-   
-            snapchat        
+    <img src="icons/3688ead9ded3d46a738c425cd8111121.jpg" alt="youtube" style="width:50px;height:50px;border-radius:50%;">
+      
     
 </a>
 
@@ -382,10 +431,7 @@
 
         discord      <span class="mini-circle offline"></span>
   <span class="mini-circle-platform"></span>
-
-
-   
-            discord        
+    <img src="icons/b5d4ce10a744861ffd3314d20d116976.jpg" alt="youtube" style="width:50px;height:50px;border-radius:50%;">      
     
 </a>
 
@@ -397,6 +443,7 @@
 
         github      <span class="mini-circle offline"></span>
   <span class="mini-circle-platform"></span>
+  <img src="icons/63de5479e8eb4676570c49e2579cab01.jpg" alt="youtube" style="width:50px;height:50px;border-radius:50%;">      
 
 
    
@@ -404,19 +451,21 @@
     
 </a>
 
+  <!-- Music Link - Modified -->
   <a href="#" 
    class="social-link  dbl"
-   data-platform="twitter"
+   data-platform="music"
    data-link="#"
+   id="musicLink"
    style="top: calc(50% + -200px); left: calc(50% + -3.6739403974421E-14px); transform: translate(-50%, -50%);">
 
-        twitter      <span class="mini-circle offline"></span>
-  <span class="mini-circle-platform"></span>
-
+        my music      <span class="mini-circle offline"></span>
+  <span class="music-playing-indicator" id="musicIndicator"></span>
+  <img src="icons/5217b45a6fdee35d17dc663d4cf1dcb4.jpg" alt="youtube" style="width:50px;height:50px;border-radius:50%;">      
 
    
-            twitter        
-    
+            my music        
+    <span class="tooltip">RealestK - Bruce Wayne</span>
 </a>
 
   <a href="edit.php" 
@@ -442,6 +491,8 @@ const circle = document.getElementById("circle");
 const popup = document.getElementById("popup");
 const sendBtn = document.getElementById("sendBtn");
 const closeBtn = document.getElementById("closeBtn");
+const musicLink = document.getElementById("musicLink");
+const musicIndicator = document.getElementById("musicIndicator");
 
 let currentPlatform = null;
 let currentNumber = null;
@@ -451,9 +502,72 @@ avatar.addEventListener("click", () => {
   circle.classList.toggle("collapsed");
 });
 
-// لكل أيقونة
+// Create audio element (hidden - no controls)
+const audio = new Audio();
+let isPlaying = false;
+
+// Your music track - Add your music file here
+const musicTrack = {
+  title: "RealestK - Bruce Wayne",
+  src: "RealestK - Bruce Wayne (Official Audio).mp3" // Change this to your music file path
+};
+
+// Initialize audio
+audio.src = musicTrack.src;
+audio.volume = 0.5; // Set default volume to 50%
+
+// Music link click handler
+musicLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  // Toggle play/pause
+  if (isPlaying) {
+    audio.pause();
+    musicIndicator.style.display = 'none';
+  } else {
+    audio.play().catch(error => {
+      console.log("Audio play failed:", error);
+      // If autoplay is blocked, show a message
+      alert("Click the music icon again to start playback");
+    });
+    musicIndicator.style.display = 'block';
+  }
+  isPlaying = !isPlaying;
+});
+
+// Double-click to go to next track or restart
+musicLink.addEventListener('dblclick', (e) => {
+  e.preventDefault();
+  
+  // Restart the current track from beginning
+  audio.currentTime = 0;
+  
+  if (!isPlaying) {
+    audio.play();
+    musicIndicator.style.display = 'block';
+    isPlaying = true;
+  }
+});
+
+// Audio event listeners
+audio.addEventListener('ended', () => {
+  isPlaying = false;
+  musicIndicator.style.display = 'none';
+});
+
+audio.addEventListener('error', (e) => {
+  console.log("Audio error:", e);
+  isPlaying = false;
+  musicIndicator.style.display = 'none';
+  alert("Error loading music file. Please check the file path.");
+});
+
+// لكل أيقونة (remaining social links)
 document.querySelectorAll(".dbl").forEach(link => {
   const platform = link.getAttribute("data-platform");
+
+  // Skip music link since we already handled it
+  if (platform === "music") return;
 
   if (link.classList.contains("edit-btn")) {
     link.addEventListener("click", (e) => {
@@ -620,12 +734,23 @@ function typeEffect() {
 
 typeEffect();
 
+// Keyboard shortcuts for music control
+document.addEventListener('keydown', (e) => {
+  // Space bar to play/pause music
+  if (e.code === 'Space' && document.activeElement !== document.getElementById("message")) {
+    e.preventDefault();
+    musicLink.click();
+  }
+  
+  // 'M' key to mute/unmute
+  if (e.code === 'KeyM' && document.activeElement !== document.getElementById("message")) {
+    e.preventDefault();
+    audio.muted = !audio.muted;
+  }
+});
+
 </script>
 
 </body>
   <!--© 2025 Quickfo V1 — Somoud Baha-Ouramadan-->
 </html>
-
-
-
-
