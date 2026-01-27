@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مناسبات الفاسي | Luxury Events</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --light-gold: #F9E29C;
+      --dark-bg: #0a0a0a;
+      --card-bg: #161616;
+      --glass: rgba(255, 255, 255, 0.03);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      background-image: radial-gradient(circle at top right, #1a1a1a, #0a0a0a);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+      transition: transform 0.5s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    h2 {
+      color: var(--gold);
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    p.subtitle {
+      color: #888;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 1px;
+      font-weight: 400;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: var(--glass);
+      color: #fff;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #b8860b 0%, #ffd700 100%);
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: 700;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(212, 175, 55, 0.2);
+      opacity: 0.9;
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #666;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* Custom Date Icon Color */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg);
+      cursor: pointer;
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 25px;
+      }
+      h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <img src="LOGO.png" class="logo" alt="Logo">
+
+  <div class="form-container">
+    <h2>مناسبات الفاسي</h2>
+    <p class="subtitle">حيث تلتقي الفخامة بالتفاصيل</p>
+
+    <div class="form-group">
+      <label>الاسم الكامل</label>
+      <input id="name" type="text" placeholder="أدخل اسمك الكريم">
+    </div>
+
+    <div class="form-group">
+      <label>رقم الهاتف</label>
+      <input id="phone" type="tel" placeholder="06XXXXXXXX">
+    </div>
+
+    <div class="form-group">
+      <label>نوع المناسبة</label>
+      <select id="event">
+        <option value="عرس">حفل زفاف ملكي</option>
+        <option value="خطوبة">حفل خطوبة</option>
+        <option value="عيد ميلاد">عيد ميلاد فاخر</option>
+        <option value="حفل خاص">لقاء خاص</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>تاريخ المناسبة</label>
+      <input id="date" type="date">
+    </div>
+
+    <div class="form-group">
+      <label>المدينة / الموقع</label>
+      <input id="location" type="text" placeholder="مثال: أكادير، حي فونتي">
+    </div>
+
+    <div class="form-group">
+      <label>تفاصيل إضافية</label>
+      <textarea id="notes" rows="3" placeholder="هل لديك طلبات خاصة؟"></textarea>
+    </div>
+
+    <button onclick="sendWhatsApp()">تأكيد الحجز الآن</button>
+  </div>
+
+  <footer>
+    © 2026 Monasabat Elfassi — Développé avec élégance par <a href="https://www.instagram.com/formarea.agency" target="_blank">@Formarea</a>
+  </footer>
+
+  <script>
+    function sendWhatsApp() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const eventType = document.getElementById("event").value;
+      const date = document.getElementById("date").value;
+      const location = document.getElementById("location").value;
+      const notes = document.getElementById("notes").value || "لا توجد";
+
+      if(!name || !phone) {
+        alert("يرجى ملء الاسم ورقم الهاتف لإتمام الطلب");
+        return;
+      }
+
+      const msg = 
+        `✨ *طلب حجز حفل جديد* ✨%0A%0A` +
+        `👤 *الاسم:* ${name}%0A` +
+        `📞 *الهاتف:* ${phone}%0A` +
+        `💍 *المناسبة:* ${eventType}%0A` +
+        `📅 *التاريخ:* ${date}%0A` +
+        `📍 *المكان:* ${location}%0A` +
+        `📝 *ملاحظات:* ${notes}%0A%0A` +
+        `----------------------------- %0A` +
+        `تم الإرسال من نموذج الحجز الفاخر`;
+
+      const phoneNumber = "212652618870";
+      window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+    }
+  </script>
+</body>
+</html>
