@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Digital | متجر الخدمات الرقمية</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: #050505;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 450px;
+      background: rgba(15, 15, 15, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 35px;
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    h2 {
+      color: #fff;
+      margin-bottom: 5px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      background: linear-gradient(to left, #6366f1, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #aaa;
+      padding-right: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #6366f1;
+      font-size: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.05);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+
+    .price-tag {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px dashed #6366f1;
+      border-radius: 10px;
+      color: #a855f7;
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(45deg, #6366f1, #a855f7);
+      border: none;
+      border-radius: 14px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: 0.4s;
+    }
+
+    button:hover {
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    footer {
+      margin-top: 30px;
+      color: #444;
+      font-size: 12px;
+    }
+
+    footer a {
+      color: #6366f1;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>إيليت ديجيتال</h2>
+    <p class="subtitle">اشتراكات أصلية وضمان كامل</p>
+
+    <div class="form-group">
+      <label>الإسم الكامل</label>
+      <input id="name" type="text" placeholder="أدخل اسمك">
+    </div>
+
+    <div class="form-group">
+      <label>رقم الواتساب</label>
+      <input id="phone" type="tel" placeholder="06XXXXXXXX">
+    </div>
+
+    <div class="form-group">
+      <label>اختر الخدمة الرقمية</label>
+      <select id="service" onchange="updateDurationOptions()">
+        <option value="Netflix Premium">Netflix Premium</option>
+        <option value="CapCut Pro">CapCut Pro</option>
+        <option value="YouTube Premium">YouTube Premium</option>
+        <option value="Spotify Premium">Spotify Premium</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>مدة الاشتراك</label>
+      <select id="duration" onchange="updatePrice()">
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label>السعر المطلوب</label>
+      <div id="price_display" class="price-tag">-- DH</div>
+    </div>
+
+    <button onclick="sendOrder()">تأكيد الطلب عبر واتساب</button>
+  </div>
+
+  <footer>
+    © 2026 Elite Digital — Developed by <a href="#">formarea.agency</a>
+  </footer>
+
+  <script>
+    const pricingData = {
+      "Netflix Premium": [
+        { label: "شهر واحد", price: 40 },
+        { label: "3 أشهر", price: 110 }
+      ],
+      "CapCut Pro": [
+        { label: "شهر واحد", price: 30 },
+        { label: "سنة كاملة", price: 150 }
+      ],
+      "YouTube Premium": [
+        { label: "شهر واحد", price: 25 }
+      ],
+      "Spotify Premium": [
+        { label: "شهر واحد", price: 20 }
+      ]
+    };
+
+    function updateDurationOptions() {
+      const service = document.getElementById("service").value;
+      const durationSelect = document.getElementById("duration");
+      
+      // Clear existing options
+      durationSelect.innerHTML = "";
+
+      // Add new options based on selected service
+      pricingData[service].forEach(item => {
+        let option = document.createElement("option");
+        option.value = item.label;
+        option.text = item.label;
+        option.setAttribute("data-price", item.price);
+        durationSelect.appendChild(option);
+      });
+
+      updatePrice();
+    }
+
+    function updatePrice() {
+      const durationSelect = document.getElementById("duration");
+      if(durationSelect.selectedIndex !== -1) {
+          const price = durationSelect.options[durationSelect.selectedIndex].getAttribute("data-price");
+          document.getElementById("price_display").innerText = price + " DH";
+      }
+    }
+
+    function sendOrder() {
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const service = document.getElementById("service").value;
+      const duration = document.getElementById("duration").value;
+      const price = document.getElementById("price_display").innerText;
+
+      if(!name || !phone) {
+        alert("يرجى إدخال الإسم ورقم الهاتف");
+        return;
+      }
+
+      let msg = 
+        `⚡ *طلب اشتراك رقمي جديد* ⚡%0A` + 
+        `----------------------------- %0A` +
+        `👤 *العميل:* ${name}%0A` +
+        `📱 *الهاتف:* ${phone}%0A` +
+        `📦 *الخدمة:* ${service}%0A` +
+        `⏳ *المدة:* ${duration}%0A` +
+        `💰 *الثمن:* ${price}%0A` +
+        `----------------------------- %0A` +
+        `يرجى تزويدي بطريقة الدفع لتفعيل الحساب.`;
+
+      let phoneNumber = "2126XXXXXXXX"; 
+      window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+    }
+
+    // Initialize the duration dropdown on page load
+    window.onload = updateDurationOptions;
+
+    // made by formarea.agency
+    // contact me: +212 652-618870 or DM
+  </script>
+</body>
+</html>
