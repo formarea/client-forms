@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Organizer | Desktop Utility</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #007AFF; /* Apple Blue */
+            --text-dark: #1d1d1f;
+            --text-light: #86868b;
+            --bg-soft: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero Section */
+        .wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text span {
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+        }
+
+        p.lead {
+            font-size: 20px;
+            color: var(--text-light);
+            margin-bottom: 35px;
+            max-width: 450px;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn-main {
+            background: var(--accent);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 99px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-main:hover {
+            background: #0056b3;
+            transform: scale(1.03);
+        }
+
+        /* Image Side */
+        .hero-visual {
+            flex: 1;
+            background: var(--bg-soft);
+            padding: 20px;
+            border-radius: 24px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.02);
+        }
+
+        .hero-visual img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Floating Stats/Features */
+        .feature-grid {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature {
+            font-size: 14px;
+        }
+
+        .feature b {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        /* Modal - Minimalist Blur */
+        #paymentModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .rib-container {
+            background: var(--bg-soft);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #333;
+        }
+
+        .close-link {
+            display: block;
+            margin-top: 25px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 13px;
+            color: var(--text-light);
+            background: var(--bg-soft);
+        }
+
+        @media (max-width: 850px) {
+            .wrapper { flex-direction: column; text-align: center; padding: 40px 20px; }
+            .btn-group { justify-content: center; }
+            h1 { font-size: 38px; }
+            .feature-grid { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="wrapper">
+    <div class="hero-text">
+        <span>Now Available for Windows</span>
+        <h1>Declutter your desktop, instantly.</h1>
+        <p class="lead">The Organizer puts your files where they belong so you can focus on what matters. Fast, secure, and entirely yours.</p>
+        
+        <div class="btn-group">
+            <a href="#" class="btn-main" onclick="toggleModal(true)">Download v1.0</a>
+            <span style="color: var(--text-light); font-size: 14px;">Free / PWYW</span>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <b>One Click</b>
+                <span style="color: var(--text-light)">Total automation.</span>
+            </div>
+            <div class="feature">
+                <b>Zero Setup</b>
+                <span style="color: var(--text-light)">Works out of the box.</span>
+            </div>
+            <div class="feature">
+                <b>Native</b>
+                <span style="color: var(--text-light)">Built for Win 10/11.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <img src="setup-preview.png" alt="App Interface">
+    </div>
+</section>
+
+<div id="paymentModal">
+    <div class="modal-card">
+        <div style="font-size: 40px; margin-bottom: 10px;">☕</div>
+        <h2 style="margin: 0;">Pay what you want</h2>
+        <p style="color: var(--text-light); font-size: 15px; margin-top: 10px;">
+            The Organizer is free to use. If it saves you time, consider supporting the developer with a small gift.
+        </p>
+
+        <div class="rib-container">
+            022 780 0007 6000 4444 7057 74
+        </div>
+
+        <a href="TheOrganizer_Setup.exe" class="btn-main" style="display: block;" onclick="toggleModal(false)">
+            I've contributed, download now
+        </a>
+
+        <a href="#" class="close-link" onclick="toggleModal(false)">Not right now, just download</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 The Organizer. Made by <a style="text-decoration: none;" href="https://wa.me/212652618870" >Somoud baha-ouramadan</a>
+</footer>
+
+<script>
+    function toggleModal(show) {
+        const modal = document.getElementById('paymentModal');
+        modal.style.display = show ? 'flex' : 'none';
+        document.body.style.overflow = show ? 'hidden' : 'initial';
+    }
+</script>
+
+</body>
+</html>
