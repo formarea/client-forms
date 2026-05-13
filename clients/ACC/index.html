@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ACC Architecture | Saad Hajby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Suisse+Int%27l:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #c8a96e;
+            --accent-dark: #a8883e;
+            --dark-bg: #111010;
+            --mid-bg: #1c1b1b;
+            --light-bg: #faf9f7;
+            --text-main: #111111;
+            --text-muted: #888;
+            --text-light: rgba(255,255,255,0.7);
+            --border: rgba(255,255,255,0.1);
+            --border-dark: #e8e6e1;
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition: all 0.5s var(--ease);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* Offset for fixed navbar */
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* ─── SCROLL REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ─── NAVIGATION ─── */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 36px 60px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: background 0.4s var(--ease), padding 0.4s var(--ease), backdrop-filter 0.4s;
+        }
+
+        .navbar.scrolled {
+            background: rgba(17, 16, 16, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 20px 60px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 52px;
+            width: auto;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .logo-text .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: white;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .logo-text .sub {
+            font-size: 9px;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 300;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.65);
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s var(--ease);
+        }
+
+        .nav-links a:hover { color: white; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: transparent !important;
+            border: 1px solid var(--accent) !important;
+            color: var(--accent) !important;
+            padding: 8px 20px;
+            font-size: 10.5px !important;
+            letter-spacing: 2px !important;
+            transition: var(--transition) !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            background: var(--accent) !important;
+            color: white !important;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1100;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: white;
+            transition: var(--transition);
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--dark-bg);
+            z-index: 1050;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+            pointer-events: none;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .mobile-menu a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 300;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--accent); }
+
+        /* ─── HERO ─── */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%),
+                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 60px 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.4));
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 9vw, 8.5rem);
+            line-height: 0.88;
+            font-weight: 300;
+            letter-spacing: -1px;
+            max-width: 900px;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-bottom {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 50px;
+        }
+
+        .hero-sub {
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            max-width: 340px;
+            opacity: 0.75;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            padding-bottom: 6px;
+            transition: var(--transition);
+        }
+        .hero-cta:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            gap: 20px;
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            right: 60px;
+            bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.4);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+        }
+        .scroll-hint::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(transparent, rgba(255,255,255,0.4));
+            animation: scrollLine 1.8s ease-in-out infinite;
+        }
+        @keyframes scrollLine {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* ─── MISSION ─── */
+        .mission {
+            padding: 120px 60px 100px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 80px;
+            align-items: start;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .mission-label {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .section-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        .mission-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 80px;
+            font-weight: 300;
+            color: #e8e6e1;
+            line-height: 1;
+        }
+
+        .mission h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(26px, 3.5vw, 42px);
+            font-weight: 300;
+            line-height: 1.35;
+            color: var(--text-main);
+            max-width: 700px;
+        }
+
+        .mission h2 em {
+            font-style: italic;
+            color: var(--accent-dark);
+        }
+
+        /* ─── SERVICES ─── */
+        .services-section {
+            padding: 100px 60px;
+        }
+
+        .services-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 70px;
+        }
+
+        .services-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 300;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .service-item {
+            padding: 40px 36px 40px 0;
+            border-top: 1px solid var(--border-dark);
+            border-right: 1px solid var(--border-dark);
+            padding-right: 40px;
+            transition: background 0.4s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-item:last-child {
+            border-right: none;
+        }
+
+        .service-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.5s var(--ease);
+        }
+        .service-item:hover::before { width: 100%; }
+
+        .service-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 50px;
+            display: block;
+        }
+
+        .service-item h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .service-item p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ─── PROJECTS ─── */
+        .projects-section {
+            background: var(--dark-bg);
+            padding: 100px 60px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 300;
+            color: white;
+        }
+
+        .view-more {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: gap 0.3s ease;
+        }
+        .view-more:hover { gap: 18px; }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .img-box {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            position: relative;
+            background: var(--mid-bg);
+            cursor: pointer;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease), filter 0.5s ease;
+            filter: brightness(0.85) saturate(0.9);
+        }
+
+        .img-box:hover img {
+            transform: scale(1.07);
+            filter: brightness(0.95) saturate(1.1);
+        }
+
+        .img-box-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 24px 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            color: white;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .img-box:hover .img-box-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-box-overlay span {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+        }
+
+        .img-box-overlay p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 300;
+            margin-top: 4px;
+        }
+
+        /* Sketch card */
+        .sketch-card {
+            background: var(--mid-bg);
+            border: 1px solid rgba(200, 169, 110, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            aspect-ratio: 4/3;
+            transition: border-color 0.4s ease;
+        }
+        .sketch-card:hover {
+            border-color: var(--accent);
+        }
+        .sketch-icon {
+            width: 48px;
+            height: 48px;
+            opacity: 0.5;
+        }
+        .sketch-card span {
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .sketch-card p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            color: rgba(255,255,255,0.5);
+            font-style: italic;
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            background: var(--accent);
+            padding: 50px 60px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 52px;
+            font-weight: 300;
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.85;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* ─── FOOTER INFO ─── */
+        .footer-info {
+            padding: 100px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .info-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 360px;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .service-entry {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .service-entry .entry-num {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .service-entry h4 {
+            font-size: 15px;
+            font-weight: 400;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .service-entry p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* ─── BOTTOM FOOTER ─── */
+        .footer-bottom {
+            background: var(--dark-bg);
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            color: white;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .footer-divider {
+            width: 1px;
+            height: 20px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .footer-links a {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .services { grid-template-columns: repeat(2, 1fr); }
+            .project-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 24px 24px; }
+            .navbar.scrolled { padding: 18px 24px; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            .hero { padding: 0 24px 60px; }
+            .hero-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+            .scroll-hint { display: none; }
+
+            .mission { grid-template-columns: 1fr; gap: 20px; padding: 70px 24px; }
+            .mission-num { font-size: 50px; }
+
+            .services-section { padding: 60px 24px; }
+            .services { grid-template-columns: 1fr 1fr; }
+            .service-item { border-right: none; padding-right: 0; padding-left: 0; }
+
+            .projects-section { padding: 70px 24px; }
+            .project-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+
+            .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 40px 24px; }
+
+            .footer-info { grid-template-columns: 1fr; gap: 50px; padding: 70px 24px; }
+
+            .footer-bottom { padding: 30px 24px; flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 3.2rem; }
+            .services { grid-template-columns: 1fr; }
+            .project-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#home">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+</div>
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="navbar" id="navbar">
+    <a href="#" class="logo">
+        <img src="logo.png" alt="ACC Architecture" class="logo-img">
+        <div class="logo-text">
+            <span class="name">Architecture</span>
+            <span class="sub">Saad Hajby · Agadir</span>
+        </div>
+    </a>
+
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+    </ul>
+
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
+    <div class="hero-eyebrow reveal"></div>
+    <h1 class="hero-title reveal reveal-delay-1">
+        Sparkling<br><em>Minds</em><br>Wanted
+    </h1>
+    <div class="hero-bottom reveal reveal-delay-2">
+        <p class="hero-sub">We are always looking for new architects to join our team in Agadir. Shape the future of Moroccan design with us.</p>
+        <a href="#" class="hero-cta">Explore Our Work →</a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ─── MISSION ─── -->
+<section class="mission" id="about">
+    <div class="mission-label reveal">
+        <span class="section-tag">Our Vision</span>
+        <div class="mission-num">01</div>
+    </div>
+    <h2 class="reveal reveal-delay-1">
+        What sets us apart from the rest is our <em>visionary goal</em> & truly unique designs that are specially curated to perfection for our clients.
+    </h2>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section class="services-section" id="services">
+    <div class="services-header reveal">
+        <div>
+            <span class="section-tag">What We Do</span>
+            <h2 style="margin-top: 10px;">Our Expertise</h2>
+        </div>
+    </div>
+
+    <div class="services">
+        <div class="service-item reveal">
+            <span class="service-num">01</span>
+            <h3>Commercial</h3>
+            <p>Expertly designed spaces for business, balancing functionality with modern Moroccan aesthetics and purpose-driven form.</p>
+        </div>
+        <div class="service-item reveal reveal-delay-1">
+            <span class="service-num">02</span>
+            <h3>Residential</h3>
+            <p>Bespoke luxury villas and sustainable living environments tailored to the landscape and lifestyle of Agadir.</p>
+        </div>
+        <div class="service-item reveal reveal-delay-2">
+            <span class="service-num">03</span>
+            <h3>Hospitality</h3>
+            <p>Curating immersive guest experiences through innovative hotel and resort architectural planning.</p>
+        </div>
+        <div class="service-item reveal reveal-delay-3">
+            <span class="service-num">04</span>
+            <h3>Multipurpose</h3>
+            <p>Complex structures designed for versatility, long-term urban sustainability, and community impact.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PROJECTS ─── -->
+<section class="projects-section" id="projects">
+    <div class="section-header reveal">
+        <h2>Projects Preview</h2>
+        <a href="#" class="view-more">View All →</a>
+    </div>
+
+    <div class="project-grid">
+        <div class="img-box reveal">
+            <img src="image1.jpg" alt="Residential Project">
+            <div class="img-box-overlay">
+                <span>Residential · 2024</span>
+                <p>Villa Zerktouni, Agadir</p>
+            </div>
+        </div>
+        <div class="img-box reveal reveal-delay-1">
+            <img src="image3.jpg" alt="Commercial Project">
+            <div class="img-box-overlay">
+                <span>Commercial · 2024</span>
+                <p>Souss Business Tower</p>
+            </div>
+        </div>
+        <div class="img-box reveal reveal-delay-2">
+            <img src="image2.jpg" alt="Hospitality Project">
+            <div class="img-box-overlay">
+                <span>Hospitality · 2023</span>
+                <p>Riad Talborjt Resort</p>
+            </div>
+        </div>
+        <div class="img-box reveal reveal-delay-1">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800" alt="Interior Project">
+            <div class="img-box-overlay">
+                <span>Interior · 2023</span>
+                <p>Atlas Penthouse Suite</p>
+            </div>
+        </div>
+
+        <!-- Fixed sketch card — was just a broken placeholder before -->
+        <div class="sketch-card reveal reveal-delay-2">
+            <svg class="sketch-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="8" width="32" height="32" stroke="#c8a96e" stroke-width="1"/>
+                <line x1="8" y1="24" x2="40" y2="24" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3"/>
+                <line x1="24" y1="8" x2="24" y2="40" stroke="#c8a96e" stroke-width="1" stroke-dasharray="3 3"/>
+                <circle cx="24" cy="24" r="6" stroke="#c8a96e" stroke-width="1"/>
+            </svg>
+            <span>Coming Soon</span>
+            <p>Concept in progress…</p>
+        </div>
+
+        <div class="img-box reveal reveal-delay-3">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800" alt="Multipurpose Project">
+            <div class="img-box-overlay">
+                <span>Multipurpose · 2022</span>
+                <p>Marina Complex, Agadir</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar">
+    <div class="stat-item reveal">
+        <span class="stat-num">12+</span>
+        <span class="stat-label">Years of Practice</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-num">80+</span>
+        <span class="stat-label">Projects Completed</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Design Disciplines</span>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Client Satisfaction</span>
+    </div>
+</div>
+
+<!-- ─── FOOTER INFO ─── -->
+<section class="footer-info" id="contact">
+    <div class="reveal">
+        <span class="info-label">About ACC</span>
+        <h3>Offering an array of services in the fields of architecture & interior design.</h3>
+        <p style="margin-top: 28px; font-size: 13.5px; color: var(--text-muted); line-height: 1.7; max-width: 340px;">
+            Based in Agadir, Morocco, ACC Architecture is a design studio committed to building spaces that transcend the ordinary — grounded in local culture, elevated by global vision.
+        </p>
+    </div>
+    <div class="reveal reveal-delay-1">
+        <span class="info-label">Our Services</span>
+        <div class="services-list">
+            <div class="service-entry">
+                <span class="entry-num">01</span>
+                <div>
+                    <h4>Consultancy</h4>
+                    <p>Strategic project consulting and financial expertise in partnership with MEDLA, providing comprehensive oversight from initial sketch to final construction.</p>
+                </div>
+            </div>
+            <div class="service-entry">
+                <span class="entry-num">02</span>
+                <div>
+                    <h4>Design & Build</h4>
+                    <p>Full-service design and construction management delivering seamless project execution with precision and craft.</p>
+                </div>
+            </div>
+            <div class="service-entry">
+                <span class="entry-num">03</span>
+                <div>
+                    <h4>Interior Design</h4>
+                    <p>Bespoke interior environments that balance luxury with cultural authenticity and functional elegance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── BOTTOM FOOTER ─── -->
+<footer class="footer-bottom">
+    <div class="footer-bottom-left">
+        <span class="footer-logo-text">ACC Architecture</span>
+        <div class="footer-divider"></div>
+        <span class="footer-copy">© 2025 Saad Hajby. All rights reserved.</span>
+    </div>
+    <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Contact</a>
+    </div>
+</footer>
+
+<script>
+    // ─── Sticky navbar ───
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ─── Mobile menu ───
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const hamburger = document.getElementById('hamburger');
+        const isOpen = menu.classList.toggle('open');
+        hamburger.classList.toggle('open', isOpen);
+        menu.style.display = isOpen ? 'flex' : 'none';
+        setTimeout(() => {
+            if (isOpen) menu.style.opacity = '1';
+        }, 10);
+    }
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('open');
+            document.getElementById('mobileMenu').style.display = 'none';
+        });
+    });
+
+    // ─── Scroll reveal ───
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Trigger hero reveals immediately
+    document.querySelectorAll('.hero .reveal').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 300);
+    });
+</script>
+
+</body>
+</html>
