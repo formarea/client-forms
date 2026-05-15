@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>توابل بيتي | أصالة النكهات في كل ذرة</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --saffron:    #E8A030;
+      --cinnamon:   #8B4513;
+      --dark:       #2e1a0e;
+      --cream:      #fdf6ee;
+      --warm-white: #fffcf8;
+      --border:     #f0dfc8;
+      --text-muted: #9a7558;
+      --shadow:     0 4px 24px rgba(46,26,14,0.08);
+      --shadow-lg:  0 12px 48px rgba(46,26,14,0.14);
+      --r: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+
+    /* ─── TOP BAR ─── */
+    .top-bar {
+      background: var(--cinnamon);
+      color: #ffe8cc;
+      font-size: 0.82rem;
+      text-align: center;
+      padding: 9px 16px;
+      letter-spacing: 0.3px;
+    }
+    .top-bar i { margin-left: 6px; color: var(--saffron); }
+
+    /* ─── HEADER ─── */
+    .main-header {
+      background: var(--warm-white);
+      box-shadow: 0 1px 0 var(--border), var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 0;
+    }
+
+    .logo-area { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .logo-icon { font-size: 2rem; color: var(--saffron); }
+    .logo-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cinnamon) 0%, #c06820 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+    .logo-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 3px; }
+
+    .search-wrapper { flex: 1; max-width: 420px; position: relative; }
+    .search-wrapper input {
+      width: 100%;
+      padding: 11px 44px 11px 18px;
+      border-radius: 60px;
+      border: 1.5px solid var(--border);
+      background: var(--cream);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.88rem;
+      color: var(--dark);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .search-wrapper input:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(232,160,48,0.15); }
+    .search-wrapper input::placeholder { color: var(--text-muted); }
+    .search-wrapper .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cinnamon);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .header-actions { display: flex; gap: 18px; align-items: center; flex-shrink: 0; }
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--cinnamon);
+      font-size: 1.35rem;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .action-btn:hover { color: var(--saffron); }
+    .cart-badge {
+      position: absolute;
+      top: -7px; right: -9px;
+      background: var(--saffron);
+      color: var(--dark);
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      font-size: 0.65rem;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      border: 2px solid var(--warm-white);
+    }
+
+    /* mobile menu toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--cinnamon);
+      font-size: 1.4rem;
+    }
+
+    /* ─── NAV CATEGORIES ─── */
+    .nav-categories {
+      background: var(--warm-white);
+      border-top: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-categories::-webkit-scrollbar { display: none; }
+    .categories-list {
+      display: flex;
+      gap: 4px;
+      padding: 8px 0;
+      white-space: nowrap;
+    }
+    .categories-list a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 7px 16px;
+      border-radius: 30px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .categories-list a:hover, .categories-list a.active {
+      color: var(--cinnamon);
+      background: #f5e8d8;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: linear-gradient(130deg, #fff4e6 0%, #fde8cc 100%);
+      border-radius: 28px;
+      overflow: hidden;
+      margin: 28px 0 48px;
+      box-shadow: var(--shadow-lg);
+      min-height: 400px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B4513' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-content {
+      padding: 52px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139,69,19,0.1);
+      color: var(--cinnamon);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      width: fit-content;
+    }
+
+    .hero-title {
+      font-family: 'Amiri', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--cinnamon);
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: #5a3822;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      max-width: 400px;
+    }
+
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--cinnamon);
+      color: white;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 40px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { background: #6d3510; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139,69,19,0.3); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--cinnamon);
+      border: 2px solid var(--cinnamon);
+      padding: 11px 24px;
+      border-radius: 40px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: var(--cinnamon); color: white; }
+
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 32px;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat strong { display: block; font-size: 1.5rem; font-weight: 800; color: var(--cinnamon); }
+    .hero-stat span { font-size: 0.75rem; color: var(--text-muted); }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .hero:hover .hero-image img { transform: scale(1.03); }
+
+    /* ─── CATEGORIES ICONS ─── */
+    .icon-section { margin: 0 0 48px; }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .icon-card {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      color: var(--dark);
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .icon-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--saffron), var(--cinnamon));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .icon-card:hover::before { opacity: 1; }
+    .icon-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: transparent; }
+    .icon-card:hover .icon-img-wrap, .icon-card:hover .icon-label { position: relative; z-index: 1; }
+    .icon-card:hover .icon-label { color: white; }
+
+    .icon-img-wrap {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: var(--cream);
+      transition: border-color 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    .icon-card:hover .icon-img-wrap { border-color: rgba(255,255,255,0.4); }
+    .icon-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .icon-emoji { font-size: 2.4rem; line-height: 80px; }
+    .icon-label { font-weight: 700; font-size: 0.95rem; transition: color 0.3s; position: relative; z-index: 1; }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-family: 'Amiri', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 50px; height: 3px;
+      background: var(--saffron);
+      border-radius: 2px;
+    }
+    .see-all {
+      color: var(--cinnamon);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .see-all:hover { text-decoration: underline; }
+
+    /* ─── PRODUCTS GRID ─── */
+    .products-section { margin-bottom: 56px; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      background: var(--warm-white);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+      position: relative;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: transparent; }
+
+    .product-img {
+      height: 210px;
+      position: relative;
+      overflow: hidden;
+      background: #f5ece0;
+    }
+    .product-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-img img { transform: scale(1.07); }
+
+    .product-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: var(--cinnamon);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .product-badge.new { background: #2e8b57; }
+
+    .product-info { padding: 18px; }
+    .product-category { font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .product-title { font-weight: 800; font-size: 1.1rem; line-height: 1.3; margin-bottom: 6px; }
+    .product-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; }
+
+    .product-rating {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 10px;
+    }
+    .stars { color: #f5a623; font-size: 0.8rem; letter-spacing: 1px; }
+    .rating-num { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+
+    .price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .price { font-weight: 800; color: var(--cinnamon); font-size: 1.25rem; }
+    .price-unit { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+
+    .weight-options { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+    .weight-badge {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Cairo', sans-serif;
+    }
+    .weight-badge:hover { border-color: var(--cinnamon); }
+    .weight-badge.active-weight { background: var(--cinnamon); color: white; border-color: var(--cinnamon); }
+
+    .btn-add {
+      width: 100%;
+      background: var(--saffron);
+      border: none;
+      padding: 11px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      color: var(--dark);
+    }
+    .btn-add:hover { background: var(--cinnamon); color: white; transform: translateY(-1px); }
+    .btn-add:active { transform: translateY(0); }
+
+    /* ─── BANNER ─── */
+    .promo-banner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+    .banner-card {
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      min-height: 200px;
+      display: flex;
+      align-items: flex-end;
+    }
+    .banner-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .banner-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(46,26,14,0.75) 0%, rgba(46,26,14,0.1) 60%);
+    }
+    .banner-content {
+      position: relative;
+      z-index: 1;
+      padding: 24px;
+      color: white;
+    }
+    .banner-tag { font-size: 0.72rem; font-weight: 700; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .banner-title { font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+    .banner-btn {
+      background: white;
+      color: var(--cinnamon);
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .banner-btn:hover { background: var(--saffron); color: white; }
+
+    /* ─── ABOUT / COOP ─── */
+    .about-section {
+      background: linear-gradient(135deg, #fff4e6 0%, #fdebd4 100%);
+      border-radius: 28px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-bottom: 56px;
+      box-shadow: var(--shadow);
+    }
+    .about-content {
+      padding: 52px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .about-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--cinnamon); font-size: 0.8rem; font-weight: 700;
+      background: rgba(139,69,19,0.1);
+      padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 16px; width: fit-content;
+    }
+    .about-title { font-family: 'Amiri', serif; font-size: 2rem; font-weight: 700; color: var(--cinnamon); margin-bottom: 16px; line-height: 1.3; }
+    .about-text { font-size: 0.95rem; color: #5a3822; line-height: 1.8; margin-bottom: 24px; }
+    .about-checks { display: flex; flex-direction: column; gap: 10px; }
+    .check-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; font-weight: 600; color: var(--dark); }
+    .check-item i { color: var(--cinnamon); font-size: 1rem; flex-shrink: 0; }
+    .about-image { position: relative; overflow: hidden; min-height: 350px; }
+    .about-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ─── FEATURES BAR ─── */
+    .features-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .feature-item {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px 18px;
+      text-align: center;
+    }
+    .feature-icon { font-size: 1.8rem; color: var(--saffron); margin-bottom: 10px; }
+    .feature-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+    .feature-desc { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      color: #c9a98a;
+      border-radius: 28px 28px 0 0;
+      margin-top: 16px;
+    }
+    .footer-inner {
+      padding: 52px 0 28px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand .logo-text { color: #f5dfc4; background: none; -webkit-background-clip: initial; background-clip: initial; font-family: 'Amiri', serif; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.8; margin: 14px 0 20px; }
+    .social-links { display: flex; gap: 10px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      color: #c9a98a;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
+    .footer-col h4 { font-size: 0.95rem; font-weight: 700; color: #f5dfc4; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { color: #9a7558; font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--saffron); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+    .payment-icons { display: flex; gap: 8px; }
+    .pay-badge {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #c9a98a;
+    }
+
+    /* ─── CART SIDEBAR ─── */
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 998; display: none; backdrop-filter: blur(3px); }
+    .overlay.active { display: block; }
+
+    .cart-sidebar {
+      position: fixed;
+      top: 0; left: -400px;
+      width: 380px; height: 100%;
+      background: white;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      z-index: 999;
+      transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+      font-family: 'Cairo', sans-serif;
+    }
+    .cart-sidebar.open { left: 0; }
+
+    .cart-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-header h3 { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--dark); }
+    .cart-close-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.3rem; transition: color 0.2s; }
+    .cart-close-btn:hover { color: var(--dark); }
+
+    .cart-body { flex: 1; overflow-y: auto; padding: 20px 24px; }
+    .cart-empty { text-align: center; padding: 48px 0; color: var(--text-muted); }
+    .cart-empty i { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+    .cart-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 700; font-size: 0.9rem; }
+    .cart-item-weight { font-size: 0.72rem; color: var(--text-muted); }
+    .cart-item-price { font-weight: 800; color: var(--cinnamon); font-size: 0.95rem; margin-top: 4px; }
+    .cart-item-controls { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { background: var(--cinnamon); color: white; border-color: var(--cinnamon); }
+    .qty-num { font-weight: 700; min-width: 24px; text-align: center; }
+    .remove-btn { background: none; border: none; color: #c0392b; cursor: pointer; font-size: 0.9rem; margin-right: 4px; opacity: 0.6; transition: opacity 0.2s; }
+    .remove-btn:hover { opacity: 1; }
+
+    .cart-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-total-row { display: flex; justify-content: space-between; font-weight: 800; font-size: 1.1rem; margin-bottom: 16px; }
+    .cart-checkout-btn { width: 100%; background: var(--cinnamon); color: white; border: none; padding: 14px; border-radius: 30px; font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+    .cart-checkout-btn:hover { background: #6d3510; }
+    .loyalty-note { font-size: 0.72rem; color: var(--text-muted); text-align: center; margin-top: 10px; }
+
+    /* ─── TOAST ─── */
+    .toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast i { color: var(--saffron); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .features-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-image { height: 220px; }
+      .hero-content { padding: 32px 24px; }
+      .hero-title { font-size: 2rem; }
+      .hero-stats { gap: 16px; }
+
+      .icon-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .promo-banner { grid-template-columns: 1fr; }
+
+      .about-section { grid-template-columns: 1fr; }
+      .about-image { min-height: 220px; order: -1; }
+      .about-content { padding: 32px 24px; }
+
+      .features-bar { grid-template-columns: repeat(2, 1fr); }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+
+      .cart-sidebar { width: 100%; left: -100%; }
+      .cart-sidebar.open { left: 0; }
+
+      .search-wrapper { display: none; }
+      .search-wrapper.mobile-open { display: block; width: 100%; max-width: 100%; order: 10; }
+
+      .header-inner { flex-wrap: wrap; }
+      .menu-toggle { display: flex; }
+    }
+
+    @media (max-width: 480px) {
+      .icon-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .product-img { height: 160px; }
+      .product-info { padding: 12px; }
+      .section-title { font-size: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .features-bar { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-content { animation: fadeUp 0.6s ease both; }
+    .hero-badge   { animation: fadeUp 0.6s 0.1s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg"></span></div>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <i class="fas fa-truck"></i> شحن سريع لجميع المدن | <strong>توصيل مجاني للطلبات فوق 150 ريال</strong>
+</div>
+
+<!-- Header -->
+<header class="main-header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo-area">
+        <i class="fas fa-mortar-pestle logo-icon"></i>
+        <div>
+          <div class="logo-text">توابل بيتي</div>
+          <div class="logo-sub">من بيتنا لمطبخك · أصالة النكهة</div>
+        </div>
+      </div>
+
+      <div class="search-wrapper" id="searchWrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="ابحث عن بهارات، خلطات، زعفران..." id="searchInput">
+      </div>
+
+      <div class="header-actions">
+        <button class="menu-toggle" id="searchToggle" aria-label="بحث">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="action-btn" aria-label="حسابي">
+          <i class="fas fa-user"></i>
+        </button>
+        <button class="action-btn" id="cartIcon" aria-label="سلة التسوق">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav-categories">
+    <div class="container">
+      <div class="categories-list">
+        <a href="#" class="active">جميع المنتجات</a>
+        <a href="#">توابل مفردة</a>
+        <a href="#">خلطات جاهزة</a>
+        <a href="#">بقوليات عضوية</a>
+        <a href="#">زيوت طبيعية</a>
+        <a href="#">عروض خاصة</a>
+        <a href="#">وصفات</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-leaf"></i> 100% طبيعي وخالٍ من الإضافات</div>
+      <h1 class="hero-title">نكهة الأصالة<br>في كل ذرّة</h1>
+      <p class="hero-sub">توابل طبيعية تُطحن طازجة عند الطلب، بأيدي نسائنا المحليات. سر المطبخ العربي بلمسة عصرية وجودة لا تُضاهى.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" id="shopNowBtn"><i class="fas fa-shopping-bag"></i> تسوق الآن</button>
+        <button class="btn-outline">تعرف علينا</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>+120</strong><span>نوع من التوابل</span></div>
+        <div class="hero-stat"><strong>+8K</strong><span>عميل سعيد</span></div>
+        <div class="hero-stat"><strong>100%</strong><span>طبيعي نقي</span></div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&q=80" alt="توابل ملونة طبيعية" loading="eager">
+    </div>
+  </div>
+
+  <!-- Category Icons -->
+  <section class="icon-section">
+    <div class="icon-grid">
+      <a href="#" class="icon-card">
+        <div class="icon-img-wrap">
+          <img src="https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?w=200&q=80" alt="توابل مفردة">
+        </div>
+        <div class="icon-label">توابل مفردة</div>
+      </a>
+      <a href="#" class="icon-card">
+        <div class="icon-img-wrap">
+          <img src="https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=200&q=80" alt="خلطات جاهزة">
+        </div>
+        <div class="icon-label">خلطات جاهزة</div>
+      </a>
+      <a href="#" class="icon-card">
+        <div class="icon-img-wrap">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=80" alt="بقوليات عضوية">
+        </div>
+        <div class="icon-label">بقوليات عضوية</div>
+      </a>
+      <a href="#" class="icon-card">
+        <div class="icon-img-wrap">
+          <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=200&q=80" alt="زيوت طبيعية">
+        </div>
+        <div class="icon-label">زيوت طبيعية</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title">✨ الأكثر مبيعاً من بيتي</h2>
+      <a href="#" class="see-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- Promo Banners -->
+  <section style="margin-bottom: 56px;">
+    <div class="promo-banner">
+      <div class="banner-card">
+        <img src="https://images.unsplash.com/photo-1601598851547-4302969d0614?w=700&q=80" alt="زعفران فاخر">
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <div class="banner-tag">عرض محدود</div>
+          <div class="banner-title">زعفران كشميري<br>خيوط حمراء نقية</div>
+          <button class="banner-btn">اطلب الآن</button>
+        </div>
+      </div>
+      <div class="banner-card">
+        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=700&q=80" alt="خلطات الكبسة">
+        <div class="banner-overlay"></div>
+        <div class="banner-content">
+          <div class="banner-tag">الأكثر طلباً</div>
+          <div class="banner-title">خلطة الكبسة<br>الحجازية الأصيلة</div>
+          <button class="banner-btn">اكتشف السر</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section>
+    <div class="features-bar">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-truck-fast"></i></div>
+        <div class="feature-title">شحن سريع</div>
+        <div class="feature-desc">توصيل لجميع المدن خلال 2-3 أيام</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+        <div class="feature-title">100% طبيعي</div>
+        <div class="feature-desc">بدون إضافات أو ألوان صناعية</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-hand-sparkles"></i></div>
+        <div class="feature-title">صناعة يدوية</div>
+        <div class="feature-desc">طحن طازج بأيدي نسائنا المحليات</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-star"></i></div>
+        <div class="feature-title">برنامج الولاء</div>
+        <div class="feature-desc">كل ريال = نقطة لمكافآت حصرية</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Coop -->
+  <section class="about-section">
+    <div class="about-content">
+      <div class="about-tag"><i class="fas fa-hand-sparkles"></i> قصتنا</div>
+      <h3 class="about-title">تعاونية بيتي النسوية</h3>
+      <p class="about-text">نحن مجموعة من النساء المحليات نعمل بحب وشغف على طحن وتعبئة التوابل الطبيعية بأيدينا. كل عبوة تحمل قصة وجودة ووقود من قلوبنا لمطابخكم.</p>
+      <div class="about-checks">
+        <div class="check-item"><i class="fas fa-check-circle"></i> نضمن نضارة التوابل وجودتها</div>
+        <div class="check-item"><i class="fas fa-check-circle"></i> دعم المنتج المحلي والمرأة</div>
+        <div class="check-item"><i class="fas fa-check-circle"></i> عبوات صديقة للبيئة وقابلة لإعادة الاستخدام</div>
+        <div class="check-item"><i class="fas fa-check-circle"></i> طحن عند الطلب للحفاظ على النكهة</div>
+      </div>
+    </div>
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1543362906-acfc16c67564?w=800&q=80" alt="تعاونية بيتي النسوية">
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <i class="fas fa-mortar-pestle" style="color:var(--saffron);font-size:1.5rem;"></i>
+          <span class="logo-text">توابل بيتي</span>
+        </div>
+        <p>من بيتنا لمطبخك، نكهة الأصالة والدفء. توابل طبيعية 100% بأيدي نساء محليات متخصصات.</p>
+        <div class="social-links">
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-snapchat"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>المنتجات</h4>
+        <ul>
+          <li><a href="#">توابل مفردة</a></li>
+          <li><a href="#">خلطات جاهزة</a></li>
+          <li><a href="#">بقوليات عضوية</a></li>
+          <li><a href="#">زيوت طبيعية</a></li>
+          <li><a href="#">عروض خاصة</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>خدمة العملاء</h4>
+        <ul>
+          <li><a href="#">تتبع طلبك</a></li>
+          <li><a href="#">الإرجاع والاستبدال</a></li>
+          <li><a href="#">الأسئلة الشائعة</a></li>
+          <li><a href="#">تواصل معنا</a></li>
+          <li><a href="#">مكافآت بيتي</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>عن بيتي</h4>
+        <ul>
+          <li><a href="#">قصتنا</a></li>
+          <li><a href="#">التعاونية النسوية</a></li>
+          <li><a href="#">الاستدامة</a></li>
+          <li><a href="#">وصفاتنا</a></li>
+          <li><a href="#">البلوغ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 توابل بيتي · نكهة الأصالة والبيت الدافئ</span>
+      <div class="payment-icons">
+        <span class="pay-badge">مدى</span>
+        <span class="pay-badge">Apple Pay</span>
+        <span class="pay-badge">تابي</span>
+        <span class="pay-badge">تمارا</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart Overlay & Sidebar -->
+<div class="overlay" id="overlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3><i class="fas fa-shopping-bag"></i> سلة المشتريات</h3>
+    <button class="cart-close-btn" id="closeCart"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty"><i class="fas fa-shopping-basket"></i><p>سلتك فارغة<br><small>أضف توابلك المفضلة</small></p></div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row"><span>الإجمالي</span><span id="cartTotal">0.00 ر.س</span></div>
+    <button class="cart-checkout-btn" id="checkoutBtn">إتمام الشراء <i class="fas fa-arrow-left"></i></button>
+    <div class="loyalty-note">★ كل ريال = نقطة في برنامج مكافآت بيتي</div>
+  </div>
+</div>
+
+<script>
+const products = [
+  { id:1, name:"بهار الكمون الناعم",      desc:"مطحون طازج بنقاوة 100%",          price:12,  rating:4.9, badge:"الأكثر مبيعاً",
+    image:"https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=75",
+    weightOptions:["100g","250g","500g"], category:"توابل مفردة" },
+  { id:2, name:"خلطة البهارات السبعة",    desc:"مثالية للمناسبات والمشاوي",       price:24,  rating:5.0, badge:"الأكثر مبيعاً",
+    image:"https://images.unsplash.com/photo-1506368249639-73a05d6f6488?w=400&q=75",
+    weightOptions:["100g","250g"],        category:"خلطات جاهزة" },
+  { id:3, name:"زعفران حر كشميري",        desc:"خيوط حمراء طبيعية فاخرة",         price:89,  rating:4.8, badge:"فاخر",
+    image:"https://images.unsplash.com/photo-1601598851547-4302969d0614?w=400&q=75",
+    weightOptions:["1g","5g"],            category:"توابل مفردة" },
+  { id:4, name:"خلطة الكبسة الحجازية",   desc:"سر الأرز الذهبي",                  price:19,  rating:4.7, badge:"",
+    image:"https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&q=75",
+    weightOptions:["150g","300g"],        category:"خلطات جاهزة" },
+  { id:5, name:"هيل أخضر حبة كاملة",     desc:"عطري ونقي من أجود المزارع",       price:28,  rating:4.6, badge:"جديد",
+    image:"https://images.unsplash.com/photo-1583258292688-d0213dc5a3a8?w=400&q=75",
+    weightOptions:["100g","250g"],        category:"توابل مفردة" },
+  { id:6, name:"زيت زيتون بكر ممتاز",    desc:"عصرة باردة من زيتون محلي",        price:45,  rating:4.9, badge:"",
+    image:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&q=75",
+    weightOptions:["500ml","1L"],         category:"زيوت طبيعية" },
+];
+
+let cart = [];
+
+function renderProducts(list = products) {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = list.map(p => `
+    <div class="product-card" data-id="${p.id}">
+      <div class="product-img">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        ${p.badge ? `<span class="product-badge${p.badge==='جديد'?' new':''}">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category}</div>
+        <div class="product-title">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-rating">
+          <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+          <span class="rating-num">${p.rating}</span>
+        </div>
+        <div class="price-row">
+          <div class="price">${p.price} ر.س <span class="price-unit">/ ${p.weightOptions[0]}</span></div>
+        </div>
+        <div class="weight-options" id="weight-${p.id}">
+          ${p.weightOptions.map((w,i) => `<span class="weight-badge${i===0?' active-weight':''}" data-weight="${w}" data-prod="${p.id}">${w}</span>`).join('')}
+        </div>
+        <button class="btn-add" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">
+          <i class="fas fa-plus-circle"></i> أضف للسلة
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.weight-badge').forEach(badge => {
+    badge.addEventListener('click', () => {
+      const pid = badge.dataset.prod;
+      document.querySelectorAll(`#weight-${pid} .weight-badge`).forEach(b => b.classList.remove('active-weight'));
+      badge.classList.add('active-weight');
+    });
+  });
+
+  grid.querySelectorAll('.btn-add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = parseInt(btn.dataset.id);
+      const name = btn.dataset.name;
+      const base = parseFloat(btn.dataset.price);
+      let weight = '100g';
+      document.querySelectorAll(`#weight-${id} .weight-badge`).forEach(s => { if(s.classList.contains('active-weight')) weight = s.dataset.weight; });
+      const multipliers = {'250g':2.2,'500g':4,'1L':1.9,'5g':0.7,'300g':1.4,'150g':0.9,'500ml':1,'1g':1};
+      const finalPrice = Math.round(base * (multipliers[weight] ?? 1) * 10) / 10;
+      addToCart(id, name, finalPrice, weight);
+      showToast(`✓ أُضيف "${name}" للسلة`);
+    });
+  });
+}
+
+function addToCart(id, name, price, weight) {
+  const existing = cart.find(i => i.id===id && i.weight===weight);
+  if(existing) existing.quantity++;
+  else cart.push({id, name, price, weight, quantity:1});
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((s,i) => s + i.price*i.quantity, 0);
+  const count = cart.reduce((s,i) => s + i.quantity, 0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = total.toFixed(2) + ' ر.س';
+
+  const body = document.getElementById('cartBody');
+  if(cart.length === 0) {
+    body.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-basket"></i><p>سلتك فارغة<br><small>أضف توابلك المفضلة</small></p></div>';
+    return;
+  }
+  body.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-weight">الوزن: ${item.weight}</div>
+        <div class="cart-item-price">${(item.price*item.quantity).toFixed(2)} ر.س</div>
+      </div>
+      <div class="cart-item-controls">
+        <button class="remove-btn" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button>
+        <button class="qty-btn" data-idx="${idx}" data-delta="-1">−</button>
+        <span class="qty-num">${item.quantity}</span>
+        <button class="qty-btn" data-idx="${idx}" data-delta="1">+</button>
+      </div>
+    </div>
+  `).join('');
+
+  body.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx), d = parseInt(btn.dataset.delta);
+      const newQ = cart[idx].quantity + d;
+      if(newQ<=0) cart.splice(idx,1); else cart[idx].quantity = newQ;
+      updateCartUI();
+    });
+  });
+  body.querySelectorAll('.remove-btn').forEach(btn => {
+    btn.addEventListener('click', () => { cart.splice(parseInt(btn.dataset.idx),1); updateCartUI(); });
+  });
+}
+
+function openCart()  { document.getElementById('cartSidebar').classList.add('open'); document.getElementById('overlay').classList.add('active'); }
+function closeCart() { document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('active'); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+document.getElementById('cartIcon').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCart);
+document.getElementById('overlay').addEventListener('click', closeCart);
+document.getElementById('shopNowBtn').addEventListener('click', () => document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'}));
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+  if(cart.length===0) showToast('سلتك فارغة! أضف منتجات أولاً');
+  else showToast('جاري تحويلك لبوابة الدفع الآمن...');
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  const term = e.target.value.trim();
+  const filtered = term ? products.filter(p => p.name.includes(term) || p.desc.includes(term) || p.category.includes(term)) : products;
+  renderProducts(filtered);
+});
+
+// Mobile search toggle
+document.getElementById('searchToggle').addEventListener('click', () => {
+  const sw = document.getElementById('searchWrapper');
+  sw.classList.toggle('mobile-open');
+  if(sw.classList.contains('mobile-open')) sw.querySelector('input').focus();
+});
+
+// Category nav active state
+document.querySelectorAll('.categories-list a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelectorAll('.categories-list a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+renderProducts();
+</script>
+</body>
+</html>
